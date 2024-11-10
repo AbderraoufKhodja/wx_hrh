@@ -8,22 +8,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const { Sequelize, DataTypes } = require("sequelize");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Counter = void 0;
+exports.init = init;
+const sequelize_1 = require("sequelize");
 // 从环境变量中读取数据库配置
 const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 const [host, port] = MYSQL_ADDRESS.split(":");
-const sequelize = new Sequelize("nodejs_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
+if (!MYSQL_USERNAME)
+    throw new Error("Please provide MYSQL_USERNAME in environment variable");
+const sequelize = new sequelize_1.Sequelize("nodejs_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
     host,
-    port,
+    port: Number(port),
     dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
 });
-// 定义数据模型
-const Counter = sequelize.define("Counter", {
+class Counter extends sequelize_1.Model {
+}
+exports.Counter = Counter;
+Counter.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     count: {
-        type: DataTypes.INTEGER,
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
     },
+}, {
+    sequelize,
+    tableName: "Counters",
 });
 // 数据库初始化方法
 function init() {
@@ -31,8 +46,3 @@ function init() {
         yield Counter.sync({ alter: true });
     });
 }
-// 导出初始化方法和模型
-module.exports = {
-    init,
-    Counter,
-};
