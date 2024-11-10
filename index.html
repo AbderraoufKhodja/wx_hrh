@@ -217,6 +217,8 @@
       </span>
       <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
         onclick="set('inc')">计数+1</a>
+      <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
+        onclick="publish('inc')">PUBLISH</a>
       <div class="card" style="width: 320px; margin-bottom: 48px;">
         <div class="card-body">
           <img class="qrcode middle" alt="WeChat QR Code"
@@ -293,6 +295,17 @@
       if (res && res.data !== undefined) {
         $(".count-number").html(res.data);
       }
+    });
+  }
+
+  function publish(action) {
+    $.ajax("/api/publishArticles", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        action: action,
+      }),
     });
   }
 </script>
