@@ -1,5 +1,8 @@
 import { Sequelize, DataTypes, Model, Optional } from "sequelize";
+import dotenv from "dotenv";
 
+
+dotenv.config();
 // 从环境变量中读取数据库配置
 const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 

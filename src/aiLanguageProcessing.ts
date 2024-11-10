@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 export async function aiLanguageProcessing(article: string): Promise<any> {
   const apiKey = process.env.GENERATIVE_API_KEY;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
