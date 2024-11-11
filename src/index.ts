@@ -38,13 +38,19 @@ app.post("/api/count", async (req: Request, res: Response) => {
 
 app.post("/api/publishArticles", async (req: Request, res: Response) => {
   const { action } = req.body;
-  
-  handlePublishArticles();
-
-  res.send({
-    code: 0,
-    data: await Counter.count(),
-  });
+try {
+    await handlePublishArticles();
+    res.send({
+      code: 0,
+      data: "Published",
+    });
+  } catch (e) {
+    console.error(e);
+    res.send({
+      code: 1,
+      data: e,
+    });
+  }
 });
 
 app.get("/api/count", async (req: Request, res: Response) => {
