@@ -12,6 +12,19 @@ RUN apk add ca-certificates
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
 && apk add --update --no-cache nodejs npm
 
+# 安装 Chromium 及其依赖
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    freetype-dev \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
+
+# 设置 Puppeteer 使用的 Chromium 路径
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
 # # 指定工作目录
 WORKDIR /app
 
