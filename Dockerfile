@@ -12,9 +12,11 @@ RUN apk add ca-certificates
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
 && apk add --update --no-cache nodejs npm
 
-# 安装 Chromium 及其依赖
+# 安装 Microsoft Edge 及其依赖
 RUN apk add --no-cache \
-    chromium \
+    wget \
+    gnupg \
+    libxshmfence \
     nss \
     freetype \
     freetype-dev \
@@ -22,8 +24,14 @@ RUN apk add --no-cache \
     ca-certificates \
     ttf-freefont
 
-# 设置 Puppeteer 使用的 Chromium 路径
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# 下载并安装 Microsoft Edge
+RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.asc.gpg \
+    && wget -q https://packages.microsoft.com/config/alpine/edge/microsoft-edge-stable.list -O /etc/apk/repositories \
+    && apk update \
+    && apk add microsoft-edge-stable
+
+# 设置 Puppeteer 使用的 Edge 路径
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/microsoft-edge
 
 # # 指定工作目录
 WORKDIR /app

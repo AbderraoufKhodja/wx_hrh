@@ -8,7 +8,11 @@ export interface ArticleData {
 
 export async function extractArticleText(url: string): Promise<ArticleData> {
   // Launch a new browser instance
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath:
+      process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/microsoft-edge",
+  });
   // Open a new page
   const page = await browser.newPage();
   // Navigate to the specified URL

@@ -18,27 +18,8 @@ app.use(express.json());
 app.use(cors());
 app.use(logger);
 
-
 app.get("/", async (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "index.html"));
-});
-
-app.get('/scrape', async (req, res) => {
-  try {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.goto('https://www.algerie360.com');
-      
-      // Example: Get the page title
-      const title = await page.title();
-      
-      await browser.close();
-      
-      res.send({ title });
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-      res.status(500).send({ error: errorMessage });
-  }
 });
 
 app.post("/api/count", async (req: Request, res: Response) => {
@@ -58,7 +39,7 @@ app.post("/api/count", async (req: Request, res: Response) => {
 
 app.post("/api/publishArticles", async (req: Request, res: Response) => {
   const { action } = req.body;
-try {
+  try {
     await handlePublishArticles();
     res.send({
       code: 0,
