@@ -1,5 +1,5 @@
 # 二开推荐阅读[如何提高项目构建效率](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/scene/build/speed.html)
-FROM node:18-alpine
+FROM node:18-bullseye-slim
 
 # 容器默认时区为UTC，如需使用上海时间请启用以下时区设置命令
 # RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
@@ -7,28 +7,28 @@ FROM node:18-alpine
 # 使用 HTTPS 协议访问容器云调用证书安装
 RUN apk add ca-certificates
 
-# 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
-# 选用国内镜像源以提高下载速度
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
-&& apk add --update --no-cache nodejs npm
+# # 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
+# # 选用国内镜像源以提高下载速度
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
+# && apk add --update --no-cache nodejs npm
 
-# 安装 Microsoft Edge 及其依赖
-RUN apk add --no-cache \
+# Install dependencies
+RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
-    libxshmfence \
-    nss \
-    freetype \
-    freetype-dev \
-    harfbuzz \
+    libxshmfence1 \
+    libnss3 \
+    libfreetype6 \
+    libharfbuzz0b \
     ca-certificates \
-    ttf-freefont
+    fonts-freefont-ttf \
+    --no-install-recommends
 
-# Add Microsoft Edge repository and install Edge
-RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apk/keys/microsoft.asc.gpg \
-    && echo "https://packages.microsoft.com/alpine/edge/main" >> /etc/apk/repositories \
-    && apk update \
-    && apk add microsoft-edge-stable
+# 下载并安装 Microsoft Edge
+RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list
+RUN apt-get update \
+RUN apt-get install -y microsoft-edge-stable
 
 # 设置 Puppeteer 使用的 Edge 路径
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/microsoft-edge
