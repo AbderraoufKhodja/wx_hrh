@@ -46,11 +46,20 @@ app.post("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function*
 }));
 app.post("/api/publishArticles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = req.body;
-    (0, handlePublishArticles_1.handlePublishArticles)();
-    res.send({
-        code: 0,
-        data: yield db_1.Counter.count(),
-    });
+    try {
+        yield (0, handlePublishArticles_1.handlePublishArticles)();
+        res.send({
+            code: 0,
+            data: "Published",
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.send({
+            code: 1,
+            data: e,
+        });
+    }
 }));
 app.get("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield db_1.Counter.count();

@@ -6,7 +6,7 @@ import { init as initDB, Counter } from "./db";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { handlePublishArticles } from "./handlePublishArticles";
-
+import timeout from "connect-timeout";
 dotenv.config();
 
 const logger = morgan("tiny");
@@ -16,6 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use(logger);
+
+// Set a timeout of 30 seconds
+app.use(timeout('30s'));
 
 app.get("/", async (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "index.html"));
