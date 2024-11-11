@@ -24,9 +24,9 @@ RUN apk add --no-cache \
     ca-certificates \
     ttf-freefont
 
-# 下载并安装 Microsoft Edge
-RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.asc.gpg \
-    && wget -q https://packages.microsoft.com/config/alpine/edge/microsoft-edge-stable.list -O /etc/apk/repositories \
+# Add Microsoft Edge repository and install Edge
+RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apk/keys/microsoft.asc.gpg \
+    && echo "https://packages.microsoft.com/alpine/edge/main" >> /etc/apk/repositories \
     && apk update \
     && apk add microsoft-edge-stable
 
