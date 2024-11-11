@@ -306,6 +306,8 @@
       data: JSON.stringify({
         action: action,
       }),
+    }).done(function (res) {
+      console.log(res);
     });
   }
 </script>
