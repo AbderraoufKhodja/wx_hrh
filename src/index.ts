@@ -64,7 +64,7 @@ app.get("/api/wx_openid", async (req: Request, res: Response) => {
 const port = process.env.PORT || 80;
 
 async function bootstrap() {
-  // await initDB();
+  await initDB();
   app.listen(port, () => {
     console.log("Server started on port", port);
   });
