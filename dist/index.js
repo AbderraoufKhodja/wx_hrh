@@ -27,7 +27,7 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use(logger);
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.sendFile(path_1.default.join(__dirname, "../index.html"));
+    res.sendFile(path_1.default.join(__dirname, "index.html"));
 }));
 app.post("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { action } = req.body;

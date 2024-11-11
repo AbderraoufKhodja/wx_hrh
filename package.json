@@ -4,7 +4,8 @@
   "description": "微信云托管 express 框架模版",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy-html",
+    "copy-html": "copyfiles -u 1 src/index.html dist",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts"
   },
@@ -33,6 +34,7 @@
     "@types/axios": "^0.9.36",
     "@types/cors": "^2.8.17",
     "@types/morgan": "^1.9.9",
+    "copyfiles": "^2.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }

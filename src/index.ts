@@ -18,7 +18,7 @@ app.use(cors());
 app.use(logger);
 
 app.get("/", async (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.post("/api/count", async (req: Request, res: Response) => {
