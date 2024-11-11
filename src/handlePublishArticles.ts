@@ -5,7 +5,6 @@ import { getNewestArticles } from "./getNewestArticles";
 import { downloadImage } from "./downloadImage";
 import { extractArticleText } from "./extractArticleText";
 import { uploadThumbnailImage } from "./uploadThumbnailImage";
-import { Console } from "console";
 
 export async function handlePublishArticles(): Promise<any> {
   const urls = await getNewestArticles();
