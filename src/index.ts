@@ -1,5 +1,4 @@
 import path from "path";
-import cron from "node-cron";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -21,12 +20,6 @@ app.use(logger);
 app.get("/", async (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-
-// Recurring scheduled job using node-cron (runs every minute)
-cron.schedule("* * * * *", async () => {
-  console.log("Running cron job");
-});
-
 
 app.post("/api/count", async (req: Request, res: Response) => {
   const { action } = req.body;
