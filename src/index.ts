@@ -5,7 +5,7 @@ import morgan from "morgan";
 import { init as initDB, Counter } from "./db";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import { handlePublishArticles } from "./handlePublishArticles";
+import { handlePublishArticle } from "./handlePublishArticle";
 
 dotenv.config();
 
@@ -37,19 +37,13 @@ app.post("/api/count", async (req: Request, res: Response) => {
 });
 
 app.post("/api/publishArticles", async (req: Request, res: Response) => {
-  const { action } = req.body;
+  const { headerImgUrl, contentHTML } = req.body;
   try {
-    await handlePublishArticles();
-    res.send({
-      code: 0,
-      data: "Published",
-    });
+    await handlePublishArticle(headerImgUrl, contentHTML);
+    res.send({ code: 200, data: "Published" });
   } catch (e) {
     console.error(e);
-    res.send({
-      code: 1,
-      data: e,
-    });
+    res.send({ code: 400, data: e });
   }
 });
 

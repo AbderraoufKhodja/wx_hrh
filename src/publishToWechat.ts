@@ -3,7 +3,6 @@ import * as cheerio from "cheerio";
 export async function publishToWeChat(
     contentHTML: string,
     uploadImgResponse: any,
-    accessToken: any
   ): Promise<void> {
     const $ = cheerio.load(contentHTML);
   
@@ -29,7 +28,7 @@ export async function publishToWeChat(
   
     // Step 1: Upload the article
     const uploadArticleResponse : any = await axios.post(
-      `https://api.weixin.qq.com/cgi-bin/draft/add?access_token=${accessToken}`,
+      `https://api.weixin.qq.com/cgi-bin/draft/add`,
       {
         articles: [
           {
