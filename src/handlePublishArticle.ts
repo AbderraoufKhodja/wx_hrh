@@ -3,7 +3,6 @@ import { uploadThumbnailImage } from "./uploadThumbnailImage";
 
 export interface WxArticle {
   title: string,
-  thumb_media_id: string,
   author: string,
   digest: string,
   show_cover_pic: number,
