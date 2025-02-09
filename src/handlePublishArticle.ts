@@ -46,9 +46,12 @@ export async function handlePublishArticle(
 
   const mediaId = uploadArticleResponse.data.media_id;
 
-  if (!mediaId) {
-    throw new Error("Media ID not found");
-  }
+  if (!mediaId) throw new Error("Media ID not found");
+
+
+  console.log("Article published to WeChat successfully");
+
+  return mediaId;
 
   // // Step 3: Publish the article
   // await axios.post(`https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=${accessToken}`, {
@@ -61,6 +64,4 @@ export async function handlePublishArticle(
   //   msgtype: 'mpnews',
   //   send_ignore_reprint: 0,
   // });
-
-  console.log("Article published to WeChat successfully");
 }
