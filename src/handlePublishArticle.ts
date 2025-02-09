@@ -1,5 +1,6 @@
 import { downloadImage } from "./downloadImage";
 import { uploadThumbnailImage } from "./uploadThumbnailImage";
+import axios from "axios";
 
 export interface WxArticle {
   title: string,
@@ -28,7 +29,7 @@ export async function handlePublishArticle(
   article.content = imgTag + article.content;
 
   // Step 1: Upload the article
-  const uploadArticleResponse: any = await axios.post(
+  const response  = await axios.post(
     `https://api.weixin.qq.com/cgi-bin/draft/add`,
     {
       articles: [
@@ -44,7 +45,7 @@ export async function handlePublishArticle(
     }
   );
 
-  const mediaId = uploadArticleResponse.data.media_id;
+  const mediaId = response.data.media_id;
 
   if (!mediaId) throw new Error("Media ID not found");
 
