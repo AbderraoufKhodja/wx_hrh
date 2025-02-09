@@ -1,10 +1,8 @@
 import * as fs from "fs";
 import * as FormData from "form-data";
+import axios from "axios";
 
-export async function uploadThumbnailImage(
-    filePath: string,
-    
-  ): Promise<any> {
+export async function uploadThumbnailImage(filePath: string): Promise<any> {
     const form = new FormData.default();
     form.append("media", fs.createReadStream(filePath));
   
