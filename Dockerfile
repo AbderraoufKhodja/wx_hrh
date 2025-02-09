@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y ca-certificates
 
 # # Install dependency packages. If you need other dependency packages, please go to the alpine dependency package management (https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13) to find them.
 # # Use domestic mirror sources to improve download speed
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \ 
 # && apk add --update --no-cache nodejs npm
 
 # # Install dependencies
