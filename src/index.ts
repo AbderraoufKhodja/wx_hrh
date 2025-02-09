@@ -39,8 +39,8 @@ app.post("/api/count", async (req: Request, res: Response) => {
 app.post("/api/publishArticles", async (req: Request, res: Response) => {
   const { headerImgUrl, article } = req.body;
   try {
-    await handlePublishArticle(article, headerImgUrl);
-    res.send({ code: 200, data: "Published" });
+    // await handlePublishArticle(article, headerImgUrl);
+    res.send({ code: 200, data: req.body });
   } catch (e) {
     console.error(e);
     res.send({ code: 400, data: e });
