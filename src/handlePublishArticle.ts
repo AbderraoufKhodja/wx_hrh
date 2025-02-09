@@ -29,7 +29,7 @@ export async function handlePublishArticle(
   article.content = imgTag + article.content;
 
   // Step 1: Upload the article
-  const response  = await axios.post(
+  const response = await axios.post(
     `https://api.weixin.qq.com/cgi-bin/draft/add`,
     {
       articles: [
@@ -42,6 +42,9 @@ export async function handlePublishArticle(
           content: article.content,
         },
       ],
+    },
+    {
+      httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
     }
   );
 

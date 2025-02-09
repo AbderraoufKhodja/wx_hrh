@@ -37,8 +37,7 @@ app.post("/api/count", async (req: Request, res: Response) => {
 });
 
 app.post("/api/publishArticles", async (req: Request, res: Response) => {
-  const headerImgUrl = req.body.headerImgUrl;
-  const article = req.body.article;
+  const {headerImgUrl , article} = req.body;
 
   try {
     const mediaId = await handlePublishArticle(article, headerImgUrl);
