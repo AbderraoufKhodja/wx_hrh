@@ -12,17 +12,17 @@ RUN apk add ca-certificates
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositories \
 # && apk add --update --no-cache nodejs npm
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    libxshmfence1 \
-    libnss3 \
-    libfreetype6 \
-    libharfbuzz0b \
-    ca-certificates \
-    fonts-freefont-ttf \
-    --no-install-recommends
+# # Install dependencies
+# RUN apt-get update && apt-get install -y \
+#     wget \
+#     gnupg \
+#     libxshmfence1 \
+#     libnss3 \
+#     libfreetype6 \
+#     libharfbuzz0b \
+#     ca-certificates \
+#     fonts-freefont-ttf \
+#     --no-install-recommends
 
 # 下载并安装 Microsoft Edge
 # RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
