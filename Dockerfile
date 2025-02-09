@@ -25,13 +25,13 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends
 
 # 下载并安装 Microsoft Edge
-RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
-RUN echo "deb [signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list
-RUN apt-get update \
-RUN apt-get install -y microsoft-edge-stable
+# RUN wget -q -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
+# RUN echo "deb [signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list
+# RUN apt-get update \
+# RUN apt-get install -y microsoft-edge-stable
 
 # 设置 Puppeteer 使用的 Edge 路径
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/microsoft-edge
+# ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/microsoft-edge
 
 # # 指定工作目录
 WORKDIR /app

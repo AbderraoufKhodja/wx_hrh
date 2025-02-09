@@ -1,19 +1,67 @@
-import { publishToWeChat } from "./publishToWechat";
 import { downloadImage } from "./downloadImage";
 import { uploadThumbnailImage } from "./uploadThumbnailImage";
 
+export interface WxArticle {
+  title: string,
+  thumb_media_id: string,
+  author: string,
+  digest: string,
+  show_cover_pic: number,
+  content: string,
+}
+
 export async function handlePublishArticle(
-  headerImgUrl: string, contentHTML: string): Promise<any> {
+  article: WxArticle, headerImgUrl: string): Promise<any> {
   const imageUrl = headerImgUrl;
   const imagePath = "temp_image.jpg";
 
-  var uploadResponse;
+
   await downloadImage(imageUrl, imagePath);
-  uploadResponse = await uploadThumbnailImage(imagePath);
+  const uploadImgResponse = await uploadThumbnailImage(imagePath);
 
-  if (!uploadResponse) return new Error("Upload response not found");
+  if (!uploadImgResponse) return new Error("Upload response not found");
 
+  const imgUrl = uploadImgResponse.url;
+  const thumbMediaId = uploadImgResponse.thumbMediaId;
 
-  // Publish the article to WeChat
-  await publishToWeChat(contentHTML, uploadResponse);
+  // Add an image at the top of the body content
+  const imgTag = `<img src="${imgUrl}" alt="Image" />`;
+  article.content = imgTag + article.content;
+
+  // Step 1: Upload the article
+  const uploadArticleResponse: any = await axios.post(
+    `https://api.weixin.qq.com/cgi-bin/draft/add`,
+    {
+      articles: [
+        {
+          title: article.title,
+          thumb_media_id: thumbMediaId,
+          author: article.author,
+          digest: article.digest,
+          show_cover_pic: article.show_cover_pic,
+          content: article.content,
+        },
+      ],
+    }
+  );
+
+  const mediaId = uploadArticleResponse.data.media_id;
+
+  if (!mediaId) {
+    throw new Error("Media ID not found");
+  }
+
+  // // Step 3: Publish the article
+  // await axios.post(`https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=${accessToken}`, {
+  //   filter: {
+  //     is_to_all: true,
+  //   },
+  //   mpnews: {
+  //     media_id: mediaId,
+  //   },
+  //   msgtype: 'mpnews',
+  //   send_ignore_reprint: 0,
+  // });
+
+  console.log("Article published to WeChat successfully");
 }

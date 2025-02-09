@@ -18,7 +18,7 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const db_1 = require("./db");
 const dotenv_1 = __importDefault(require("dotenv"));
-const handlePublishArticles_1 = require("./handlePublishArticles");
+const handlePublishArticle_1 = require("./handlePublishArticle");
 dotenv_1.default.config();
 const logger = (0, morgan_1.default)("tiny");
 const app = (0, express_1.default)();
@@ -45,20 +45,14 @@ app.post("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 }));
 app.post("/api/publishArticles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { action } = req.body;
+    const { headerImgUrl, contentHTML } = req.body;
     try {
-        yield (0, handlePublishArticles_1.handlePublishArticles)();
-        res.send({
-            code: 0,
-            data: "Published",
-        });
+        yield (0, handlePublishArticle_1.handlePublishArticle)(headerImgUrl, contentHTML);
+        res.send({ code: 200, data: "Published" });
     }
     catch (e) {
         console.error(e);
-        res.send({
-            code: 1,
-            data: e,
-        });
+        res.send({ code: 400, data: e });
     }
 }));
 app.get("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -76,7 +70,7 @@ app.get("/api/wx_openid", (req, res) => __awaiter(void 0, void 0, void 0, functi
 const port = process.env.PORT || 80;
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
-        // await initDB();
+        yield (0, db_1.init)();
         app.listen(port, () => {
             console.log("Server started on port", port);
         });
