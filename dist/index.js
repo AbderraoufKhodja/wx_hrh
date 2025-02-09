@@ -45,10 +45,11 @@ app.post("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 }));
 app.post("/api/publishArticles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { headerImgUrl, contentHTML } = req.body;
+    const headerImgUrl = req.body.headerImgUrl;
+    const article = req.body.article;
     try {
-        yield (0, handlePublishArticle_1.handlePublishArticle)(headerImgUrl, contentHTML);
-        res.send({ code: 200, data: "Published" });
+        const mediaId = yield (0, handlePublishArticle_1.handlePublishArticle)(article, headerImgUrl);
+        res.send({ code: 200, data: { msg: "Article published to WeChat successfully", mediaId } });
     }
     catch (e) {
         console.error(e);

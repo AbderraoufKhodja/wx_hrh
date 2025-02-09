@@ -17,7 +17,7 @@ exports.init = init;
 const sequelize_1 = require("sequelize");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// 从环境变量中读取数据库配置
+// Read database configuration from environment variables
 const { MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_ADDRESS = "" } = process.env;
 const [host, port] = MYSQL_ADDRESS.split(":");
 if (!MYSQL_USERNAME)

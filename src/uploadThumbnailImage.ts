@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as FormData from "form-data";
 import axios from "axios";
+import { globalAgent } from "http";
 
 export async function uploadThumbnailImage(filePath: string): Promise<any> {
     const form = new FormData.default();
@@ -11,6 +12,7 @@ export async function uploadThumbnailImage(filePath: string): Promise<any> {
       form,
       {
         headers: form.getHeaders(),
+        auth: new (require('https').Agent)({ rejectUnauthorized: false })
       }
     );
   

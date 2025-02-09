@@ -7,7 +7,8 @@
     "build": "tsc && npm run copy-html",
     "copy-html": "copyfiles -u 1 src/index.html dist",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint src --ext .ts"
   },
   "author": "",
   "license": "Apache-2.0",
