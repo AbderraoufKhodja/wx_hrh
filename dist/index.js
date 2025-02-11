@@ -45,8 +45,7 @@ app.post("/api/count", (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 }));
 app.post("/api/publishArticles", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const headerImgUrl = req.body.headerImgUrl;
-    const article = req.body.article;
+    const { headerImgUrl, article } = req.body;
     try {
         const mediaId = yield (0, handlePublishArticle_1.handlePublishArticle)(article, headerImgUrl);
         res.send({ code: 200, data: { msg: "Article published to WeChat successfully", mediaId } });

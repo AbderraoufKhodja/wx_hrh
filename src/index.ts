@@ -37,11 +37,11 @@ app.post("/api/count", async (req: Request, res: Response) => {
 });
 
 app.post("/api/publishArticles", async (req: Request, res: Response) => {
-  const {headerImgUrl , article} = req.body;
+  const { headerImgUrl, article } = req.body;
 
   try {
     const mediaId = await handlePublishArticle(article, headerImgUrl);
-    res.send({ code: 200, data: {msg: "Article published to WeChat successfully", mediaId} });
+    res.send({ code: 200, msg: "Article published to WeChat successfully", mediaId });
   } catch (e) {
     console.error(e);
     res.send({ code: 400, data: e });
