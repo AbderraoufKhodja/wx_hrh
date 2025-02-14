@@ -10,62 +10,22 @@ export interface WxArticle {
   content: string,
 }
 
-export async function handlePublishArticle(
-  article: WxArticle, headerImgUrl: string): Promise<any> {
-  const imageUrl = headerImgUrl;
-  const imagePath = "temp_image.jpg";
-
-
-  await downloadImage(imageUrl, imagePath);
-  const uploadImgResponse = await uploadThumbnailImage(imagePath);
-
-  if (!uploadImgResponse) return new Error("Upload response not found");
-
-  const imgUrl = uploadImgResponse.url;
-  const thumbMediaId = uploadImgResponse.thumbMediaId;
-
-  // Add an image at the top of the body content
-  const imgTag = `<img src="${imgUrl}" alt="Image" />`;
-  article.content = imgTag + article.content;
-
+export async function handlePublishArticle(mediaId: string): Promise<any> {
   // Step 1: Upload the article
   const response = await axios.post(
-    `https://api.weixin.qq.com/cgi-bin/draft/add`,
+    `https://api.weixin.qq.com/cgi-bin/freepublish/submit`,
     {
-      articles: [
-        {
-          title: article.title,
-          thumb_media_id: thumbMediaId,
-          author: article.author,
-          digest: article.digest,
-          show_cover_pic: article.show_cover_pic,
-          content: article.content,
-        },
-      ],
+      media_id: mediaId,
     },
     {
       httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
     }
   );
 
-  const mediaId = response.data.media_id;
+  
+  if (response.data.errmsg !== "ok") {
+    throw new Error("Failed to submit article to WeChat");
+  }
 
-  if (!mediaId) throw new Error("Media ID not found");
-
-
-  console.log("Article published to WeChat successfully");
-
-  return mediaId;
-
-  // // Step 3: Publish the article
-  // await axios.post(`https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=${accessToken}`, {
-  //   filter: {
-  //     is_to_all: true,
-  //   },
-  //   mpnews: {
-  //     media_id: mediaId,
-  //   },
-  //   msgtype: 'mpnews',
-  //   send_ignore_reprint: 0,
-  // });
+  return response.data;
 }
