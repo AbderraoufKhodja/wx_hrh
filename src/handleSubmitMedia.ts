@@ -1,5 +1,3 @@
-import { downloadImage } from "./downloadImage";
-import { uploadThumbnailImage } from "./uploadThumbnailImage";
 import axios from "axios";
 
 export interface WxArticle {
@@ -10,7 +8,7 @@ export interface WxArticle {
   content: string,
 }
 
-export async function handlePublishArticle(mediaId: string): Promise<any> {
+export async function handleSubmitMedia(mediaId: string): Promise<any> {
   // Step 1: Upload the article
   const response = await axios.post(
     `https://api.weixin.qq.com/cgi-bin/freepublish/submit`,
@@ -24,7 +22,7 @@ export async function handlePublishArticle(mediaId: string): Promise<any> {
 
   
   if (response.data.errmsg !== "ok") {
-    throw new Error("Failed to submit article to WeChat");
+    throw new Error("Failed to submit article to WeChat. errmsg: " + response.data.errmsg + ", errcode: " + response.data.errcode);
   }
 
   return response.data;

@@ -6,7 +6,7 @@ import { init as initDB, Counter } from "./db";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { handleAddDraft } from "./handleAddDraft";
-import { handlePublishArticle } from "./handlePublishArticle";
+import { handleSubmitMedia } from "./handleSubmitMedia";
 
 
 dotenv.config();
@@ -38,11 +38,12 @@ app.post("/api/count", async (req: Request, res: Response) => {
   });
 });
 
-app.post("/api/publishArticle", async (req: Request, res: Response) => {
+app.post("/api/submitMedia", async (req: Request, res: Response) => {
   const { mediaId } = req.body;
   try {
-    await handlePublishArticle(mediaId);
-    res.send({ code: 200, msg: "Article submitted to WeChat successfully", mediaId });
+    await handleSubmitMedia(mediaId);
+
+    res.send({ code: 200, msg: "Article submitted to WeChat successfully"});
   } catch (e) {
     console.error(e);
     res.send({ code: 400, data: e });
